@@ -4,6 +4,8 @@ const express = require("express");
 const Product = require("../models/product");
 const protect = require("../middleware/authMiddleware");
 const checkRole = require("../middleware/roleMiddleware");
+const upload = require("../middleware/uploadMiddleware");
+
 
 const router = express.Router();
 
@@ -15,7 +17,7 @@ const router = express.Router();
 
 router.post("/", protect, checkRole(["admin"]), async (req,res) =>{
     try{
-        const {name, description, price, category, stock, image } = req.body;
+        const {name, description, price, category, stock } = req.body; // removed ", image" from here FMI incase of error
 
         const newProduct = new Product({
             name,
@@ -23,7 +25,7 @@ router.post("/", protect, checkRole(["admin"]), async (req,res) =>{
             price,
             category,
             stock,
-            image,
+            image: req.file ? `/uploads/${req.file.filename}` : null,
             createdBy: req.userId,
         });
 
@@ -73,7 +75,7 @@ router.get("/:id", async(req, res) => {
  * @access  Private (Admin)
  */
 
-router.put("/:id", protect, checkROle(["admin"]), async (req, res) => {
+router.put("/:id", protect, checkRole(["admin"]), async (req, res) => {
     try {
         const {name, description, price, category, stock, image } = req.body;
         const product = await Product.findById(req.params.id);
