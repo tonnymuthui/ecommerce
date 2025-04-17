@@ -28,6 +28,22 @@ const orderSchema = new mongoose.Schema.Schema(
             type: String,
             default: "COD",
         },
+        paymentMethod: {
+            type: String,
+            enum: ["COD", "VISA", "MPESA"],
+            default: "COD",
+        },
+        isPaid: {
+            type: Boolean,
+            default: false,
+        },
+        paidAt: {
+            type: Date,
+        },
+        paymentDetails: {
+            type: Object,
+        },
+
     },
     {timestamps: true}
 );
