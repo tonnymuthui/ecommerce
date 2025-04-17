@@ -8,6 +8,7 @@ const authRoutes = require("./routes/authRoutes");
 const protect = require("./middleware/authMiddleware")
 const productRoutes = require("./routes/productRoutes")
 const cartRoutes = require("./routes/cartRoutes")
+const orderRoutes = require("./routes/orderRoutes");
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use(morgan("dev"));
 app.use("/api/products", productRoutes);
 app.use("/uploads", express.static("uploads"));
 app.use("/api/cart", cartRoutes);
+app.use("/api/orders", orderRoutes)
 
 
 
